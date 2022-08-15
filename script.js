@@ -49,36 +49,59 @@ class Hamburger {
         this.supplements = supplements;
     }
 
-    whatSize () {
-        return this.size;
+    topping = [];
+    supplement = [];
+    
+
+    whatSize (size) {
+        this.size = size;
+        return size;
     }
 
-    addToppings() {
-       return this.toppings;
+    addToppings(topping) {
+       this.topping.push(topping);
+       return topping;
     }
 
-    addSupplements(){
-        return this.supplements;
+    addSupplements(supplement){
+        this.supplement.push(supplement);
+        return supplement;
     }
 
     getPrice() {
-        let sumPrice = this.size.price + this.toppings.price + this.supplements.price;
-        return sumPrice;
+        let priceArray = this.topping.concat(this.supplement).concat(this.size);
+        
+        let initialValue = 0;
+        
+        let allPrice = priceArray.reduce(function (accumulator, currentValue) {
+        return accumulator + currentValue.price;
+        }, initialValue);
+
+        return allPrice;
     }
        
 
     getCalories() {
-        let sumCcal = this.size.calories + this.toppings.calories + this.supplements.calories;
-        return sumCcal
+        let calArray = this.topping.concat(this.supplement).concat(this.size);
+        
+        let initialValue = 0;
+        
+        let allCal = calArray.reduce(function (accumulator, currentValue) {
+        return accumulator + currentValue.calories;
+        }, initialValue);
+
+        return allCal;
     }
 
 };
 
-let burger = new Hamburger (HAMBURGER.size.small, HAMBURGER.toppings.potato, HAMBURGER.supplements.mayonnaise);
 
-console.log(burger.whatSize(HAMBURGER.size.small));
-console.log(burger.addToppings(HAMBURGER.toppings.potato));
-console.log(burger.addSupplements(HAMBURGER.supplements.mayonnaise));
+let burger = new Hamburger (HAMBURGER.size.small);
+
+burger.addToppings(HAMBURGER.toppings.potato);
+burger.addToppings(HAMBURGER.toppings.salad);
+burger.addSupplements(HAMBURGER.supplements.mayonnaise);
+
 
 console.log(`Total sum : ${burger.getPrice()}`);
 console.log(`Total calories : ${burger.getCalories()}`);
